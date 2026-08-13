@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuildCore · Construction Company</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      color: #1e1e2a;
+      line-height: 1.6;
+      background: #f8f7f5;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2.8rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+      background: #f7c948;
+      color: #1e1e2a;
+      box-shadow: 0 8px 24px rgba(247, 201, 72, 0.3);
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(247, 201, 72, 0.45);
+    }
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #f7c948;
+      box-shadow: none;
+    }
+    .btn-outline:hover {
+      background: #f7c948;
+      color: #1e1e2a;
+    }
+    .btn-dark {
+      background: #1e1e2a;
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+    .btn-dark:hover {
+      background: #2d2d44;
+    }
+    .btn-sm {
+      padding: 0.5rem 1.8rem;
+      font-size: 0.85rem;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 0.8rem 2rem;
+      background: rgba(10, 12, 28, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(247, 201, 72, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s;
+    }
+    .navbar.scrolled {
+      background: rgba(10, 12, 28, 0.95);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #f7c948;
+      letter-spacing: -0.5px;
+    }
+    .logo i {
+      margin-right: 8px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #f0f0f0;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      padding: 0.3rem 0;
+      border-bottom: 2px solid transparent;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #f7c948;
+      border-bottom-color: #f7c948;
+    }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 1.5rem 4rem;
+      background: url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+      background-color: #1a1c2e;
+      background-blend-mode: overlay;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 10, 24, 0.65);
+      backdrop-filter: brightness(0.8) saturate(1.1);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      color: #fff;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(247, 201, 72, 0.15);
+      backdrop-filter: blur(4px);
+      padding: 0.4rem 2rem;
+      border-radius: 40px;
+      border: 1px solid rgba(247, 201, 72, 0.25);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: #fadf9e;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      background: linear-gradient(to right, #f7c948, #f5b042);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 20px rgba(247, 201, 72, 0.2);
+    }
+    .hero p {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      max-width: 700px;
+      margin: 0.75rem auto 2rem;
+      opacity: 0.92;
+      font-weight: 300;
+    }
+    .hero-tools {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem 2.8rem;
+      margin: 2.5rem 0 2.8rem;
+    }
+    .hero-tool {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(6px);
+      padding: 0.7rem 1.4rem;
+      border-radius: 60px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: 0.25s;
+      min-width: 70px;
+    }
+    .hero-tool:hover {
+      transform: translateY(-6px);
+      background: rgba(247, 201, 72, 0.12);
+      border-color: #f7c948;
+    }
+    .hero-tool i {
+      font-size: 2.2rem;
+      color: #f7c948;
+      margin-bottom: 0.2rem;
+    }
+    .hero-tool span {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #f0f0f0;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+    .hero-credit {
+      margin-top: 2.5rem;
+      font-size: 0.7rem;
+      opacity: 0.4;
+      letter-spacing: 1px;
+    }
+
+    /* ===== SECTION COMMON ===== */
+    .section {
+      padding: 5rem 0;
+    }
+    .section-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #1e1e2a;
+      display: inline-block;
+      border-bottom: 4px solid #f7c948;
+      padding-bottom: 0.3rem;
+    }
+    .section-sub {
+      font-size: 1.1rem;
+      color: #666;
+      max-width: 680px;
+      margin-bottom: 2.5rem;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .text-center .section-sub {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== ABOUT ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .about-text p {
+      margin-bottom: 1rem;
+      color: #333;
+      font-size: 1.05rem;
+    }
+    .about-stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.8rem;
+      flex-wrap: wrap;
+    }
+    .stat-box {
+      background: #fff;
+      padding: 1.2rem 1.8rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      border-left: 4px solid #f7c948;
+      flex: 1 1 100px;
+    }
+    .stat-box strong {
+      font-size: 2rem;
+      color: #1e1e2a;
+      display: block;
+    }
+    .stat-box span {
+      color: #777;
+      font-size: 0.9rem;
+    }
+    .about-image {
+      border-radius: 24px;
+      overflow: hidden;
+      min-height: 300px;
+      background: url('https://images.unsplash.com/photo-1581094794329-c8112a4c2f8b?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ===== SERVICES ===== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 2rem;
+    }
+    .service-card {
+      background: #fff;
+      padding: 2.2rem 1.8rem;
+      border-radius: 24px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+      border: 1px solid #eee;
+      transition: 0.3s;
+      text-align: center;
+    }
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: #f7c948;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.07);
+    }
+    .service-card i {
+      font-size: 2.8rem;
+      color: #f7c948;
+      margin-bottom: 0.8rem;
+    }
+    .service-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.4rem;
+    }
+    .service-card p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    /* ===== PROJECTS ===== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+      transition: 0.3s;
+      border: 1px solid #eee;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.1);
+      border-color: #f7c948;
+    }
+    .project-img {
+      height: 220px;
+      background-size: cover;
+      background-position: center;
+    }
+    .project-info {
+      padding: 1.5rem 1.5rem 1.8rem;
+    }
+    .project-info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+    .project-info p {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+    .project-tag {
+      display: inline-block;
+      background: #f7c94820;
+      color: #b87f1a;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      letter-spacing: 0.3px;
+    }
+    .see-all-wrap {
+      text-align: center;
+      margin-top: 3.5rem;
+    }
+    .see-all-wrap .btn {
+      background: transparent;
+      color: #1e1e2a;
+      border: 2px solid #f7c948;
+      box-shadow: none;
+    }
+    .see-all-wrap .btn:hover {
+      background: #f7c948;
+      color: #1e1e2a;
+    }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .testimonial-card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+      border: 1px solid #eee;
+      transition: 0.3s;
+    }
+    .testimonial-card:hover {
+      border-color: #f7c948;
+    }
+    .testimonial-card .stars {
+      color: #f7c948;
+      margin-bottom: 0.8rem;
+      font-size: 1.1rem;
+    }
+    .testimonial-card blockquote {
+      font-style: italic;
+      color: #444;
+      margin-bottom: 1rem;
+    }
+    .testimonial-card .client {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .testimonial-card .client-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: 1.2rem;
+    }
+    .testimonial-card .client-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .testimonial-card .client-role {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    /* ===== CONTACT / CTA ===== */
+    .cta-section {
+      background: #1e1e2a;
+      color: #fff;
+      padding: 4rem 2rem;
+      border-radius: 32px;
+      margin: 0 1.5rem;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .cta-section h2 span {
+      color: #f7c948;
+    }
+    .cta-section p {
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      opacity: 0.8;
+    }
+    .cta-section .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #12121e;
+      color: #b0b0c0;
+      padding: 3rem 2rem 2rem;
+      border-top: 2px solid #f7c948;
+      margin-top: 3rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer h4 {
+      color: #fff;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .footer p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      line-height: 1.8;
+    }
+    .footer ul {
+      list-style: none;
+    }
+    .footer ul li {
+      margin-bottom: 0.5rem;
+    }
+    .footer ul a {
+      color: #b0b0c0;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+    .footer ul a:hover {
+      color: #f7c948;
+    }
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      transition: 0.2s;
+    }
+    .footer-social a:hover {
+      background: #f7c948;
+      color: #1e1e2a;
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      margin-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.85rem;
+      opacity: 0.6;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: rgba(10, 12, 28, 0.98);
+        padding: 1.5rem 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        gap: 1rem;
+      }
+      .nav-links.open {
+        display: flex;
+      }
+      .nav-toggle {
+        display: block;
+      }
+      .hero-tools {
+        gap: 1rem;
+      }
+      .hero-tool {
+        padding: 0.5rem 1rem;
+        min-width: 60px;
+      }
+      .hero-tool i {
+        font-size: 1.6rem;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .cta-section {
+        margin: 0 0.5rem;
+        padding: 2.5rem 1rem;
+      }
+      .section {
+        padding: 3rem 0;
+      }
+    }
+    @media (max-width: 480px) {
+      .navbar {
+        padding: 0.6rem 1rem;
+      }
+      .logo {
+        font-size: 1.3rem;
+      }
+      .hero h1 {
+        font-size: 2.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar" id="navbar">
+    <a href="#home" class="logo"><i class="fas fa-hard-hat"></i>BuildCore</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#contact" class="btn btn-sm" style="background:#f7c948;color:#1e1e2a;padding:0.4rem 1.8rem;">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-badge"><i class="fas fa-hard-hat"></i> AI‑powered construction · est. 2026</div>
+      <h1>BuildCore</h1>
+      <p>Heavy civil, residential & commercial — we build the future with precision and integrity.</p>
+      <div class="hero-tools">
+        <div class="hero-tool"><i class="fas fa-hard-hat"></i><span>Hard hat</span></div>
+        <div class="hero-tool"><i class="fas fa-tools"></i><span>Tool set</span></div>
+        <div class="hero-tool"><i class="fas fa-crane"></i><span>Crane</span></div>
+        <div class="hero-tool"><i class="fas fa-ruler-combined"></i><span>Measure</span></div>
+        <div class="hero-tool"><i class="fas fa-drafting-compass"></i><span>Blueprint</span></div>
+        <div class="hero-tool"><i class="fas fa-excavator"></i><span>Excavator</span></div>
+      </div>
+      <div class="hero-actions">
+        <a href="#projects" class="btn">View our projects</a>
+        <a href="#contact" class="btn btn-outline">Get a quote</a>
+      </div>
+      <p class="hero-credit"><i class="fas fa-microchip"></i> background: AI‑generated construction site</p>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="section" id="about">
+    <div class="container">
+      <h2 class="section-title"><i class="fas fa-users" style="color:#f7c948;margin-right:12px;"></i> About BuildCore</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p><strong>Built on experience, powered by AI.</strong> BuildCore is a full‑service construction company with over 15 years of hands‑on expertise. We combine traditional craftsmanship with cutting‑edge AI to deliver projects on time, on budget, and beyond expectations.</p>
+          <p>From high‑rise commercial towers to custom homes and critical infrastructure, our team brings precision, safety, and innovation to every site. We are licensed, insured, and committed to excellence.</p>
+          <div class="about-stats">
+            <div class="stat-box"><strong>150+</strong><span>projects completed</span></div>
+            <div class="stat-box"><strong>98%</strong><span>client satisfaction</span></div>
+            <div class="stat-box"><strong>12</strong><span>industry awards</span></div>
+          </div>
+        </div>
+        <div class="about-image"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section class="section" id="services" style="background:#f1efec;">
+    <div class="container text-center">
+      <h2 class="section-title"><i class="fas fa-cogs" style="color:#f7c948;margin-right:12px;"></i> Our Services</h2>
+      <p class="section-sub">We deliver a full spectrum of construction solutions tailored to your needs.</p>
+      <div class="services-grid">
+        <div class="service-card"><i class="fas fa-building"></i><h3>Commercial</h3><p>Office towers, retail spaces, industrial warehouses — built to last.</p></div>
+        <div class="service-card"><i class="fas fa-home"></i><h3>Residential</h3><p>Custom homes, apartments, and communities with modern design.</p></div>
+        <div class="service-card"><i class="fas fa-road"></i><h3>Infrastructure</h3><p>Bridges, highways, utilities — the backbone of cities.</p></div>
+        <div class="service-card"><i class="fas fa-pencil-ruler"></i><h3>Design & Build</h3><p>From concept to completion, with AI‑optimized planning.</p></div>
+        <div class="service-card"><i class="fas fa-leaf"></i><h3>Sustainable</h3><p>Green building practices, energy‑efficient materials, and net‑zero designs.</p></div>
+        <div class="service-card"><i class="fas fa-tools"></i><h3>Renovation</h3><p>Remodeling, restoration, and adaptive reuse of existing structures.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROJECTS ===== -->
+  <section class="section" id="projects">
+    <div class="container">
+      <h2 class="section-title"><i class="fas fa-hard-hat" style="color:#f7c948;margin-right:12px;"></i> Our Work</h2>
+      <p class="section-sub">A selection of our recent projects. From ground‑up builds to complex renovations — we deliver excellence.</p>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop');"></div>
+          <div class="project-info"><h3>Skyline Tower</h3><p>42‑story mixed‑use commercial & residential high‑rise.</p><span class="project-tag"><i class="fas fa-city"></i> Commercial</span></div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1581094794329-c8112a4c2f8b?q=80&w=2070&auto=format&fit=crop');"></div>
+          <div class="project-info"><h3>Riverside Residences</h3><p>Luxury condominiums with sustainable design and river views.</p><span class="project-tag"><i class="fas fa-home"></i> Residential</span></div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop');"></div>
+          <div class="project-info"><h3>Metro Bridge Expansion</h3><p>Critical infrastructure upgrade connecting two major districts.</p><span class="project-tag"><i class="fas fa-road"></i> Infrastructure</span></div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1581094794329-c8112a4c2f8b?q=80&w=2070&auto=format&fit=crop');"></div>
+          <div class="project-info"><h3>GreenTech HQ</h3><p>Net‑zero office campus with AI‑managed energy systems.</p><span class="project-tag"><i class="fas fa-leaf"></i> Sustainable</span></div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop');"></div>
+          <div class="project-info"><h3>Harbor View Hotel</h3><p>Boutique hotel with coastal design and premium amenities.</p><span class="project-tag"><i class="fas fa-hotel"></i> Hospitality</span></div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background-image:url('https://images.unsplash.com/photo-1581094794329-c8112a4c2f8b?q=80&w=2070&auto=format&fit=crop');"></div>
+          <div class="project-info"><h3>Tech Park Campus</h3><p>Multi‑building tech campus with collaborative workspaces.</p><span class="project-tag"><i class="fas fa-microchip"></i> Technology</span></div>
+        </div>
+      </div>
+      <div class="see-all-wrap">
+        <a href="#" class="btn"><i class="fas fa-arrow-right"></i> See all projects</a>
+        <p style="margin-top:0.6rem;font-size:0.85rem;color:#888;">Browse our complete portfolio of 150+ builds</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section" id="testimonials" style="background:#f1efec;">
+    <div class="container text-center">
+      <h2 class="section-title"><i class="fas fa-quote-right" style="color:#f7c948;margin-right:12px;"></i> What Clients Say</h2>
+      <p class="section-sub">Real feedback from real partners who trusted us with their vision.</p>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <blockquote>"BuildCore delivered our 20‑story tower ahead of schedule. Their AI‑powered planning was a game‑changer. Highly recommended!"</blockquote>
+          <div class="client"><div class="client-avatar" style="background:#f7c948;color:#1e1e2a;">JD</div><div><div class="client-name">John Davis</div><div class="client-role">CEO, Davis Development</div></div></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <blockquote>"The attention to detail and safety protocols were outstanding. They turned our dream home into reality with zero hassle."</blockquote>
+          <div class="client"><div class="client-avatar" style="background:#2d2d44;color:#fff;">SM</div><div><div class="client-name">Sarah Mitchell</div><div class="client-role">Homeowner</div></div></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <blockquote>"They managed our bridge expansion with incredible efficiency. The project came in under budget and with zero safety incidents."</blockquote>
+          <div class="client"><div class="client-avatar" style="background:#c0392b;color:#fff;">AR</div><div><div class="client-name">Alex Rivera</div><div class="client-role">City Engineer</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA / CONTACT ===== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="cta-section">
+        <h2>Ready to build <span>your future?</span></h2>
+        <p>Contact us today for a free consultation and estimate. Let's turn your vision into reality.</p>
+        <div class="btn-group">
+          <a href="#" class="btn"><i class="fas fa-phone-alt"></i> Call now</a>
+          <a href="#" class="btn btn-outline" style="color:#fff;"><i class="fas fa-envelope"></i> Email us</a>
+          <a href="#" class="btn btn-dark"><i class="fas fa-calendar-check"></i> Schedule a meeting</a>
+        </div>
+        <p style="margin-top:1.5rem;font-size:0.9rem;opacity:0.6;"><i class="fas fa-map-pin"></i> 123 Construction Ave, Building City, BC 10001</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <h4><i class="fas fa-hard-hat" style="color:#f7c948;"></i> BuildCore</h4>
+        <p>AI‑enhanced construction company delivering excellence in commercial, residential, and infrastructure projects since 2026.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Commercial</a></li>
+          <li><a href="#">Residential</a></li>
+          <li><a href="#">Infrastructure</a></li>
+          <li><a href="#">Design & Build</a></li>
+          <li><a href="#">Renovation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><i class="fas fa-phone-alt" style="color:#f7c948;width:20px;"></i> +1 (800) 555‑0123</li>
+          <li><i class="fas fa-envelope" style="color:#f7c948;width:20px;"></i> hello@buildcore.ai</li>
+          <li><i class="fas fa-map-pin" style="color:#f7c948;width:20px;"></i> 123 Construction Ave, BC</li>
+          <li><i class="fas fa-clock" style="color:#f7c948;width:20px;"></i> Mon‑Fri: 7am – 6pm</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p><i class="fas fa-camera"></i> AI‑generated imagery used for demonstration. &copy; 2026 BuildCore Construction. Built with <i class="fas fa-heart" style="color:#f7c948;"></i></p>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // Mobile menu toggle
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      links.classList.toggle('open');
+    });
+
+    // Close menu on link click (mobile)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        links.classList.remove('open');
+      });
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 80) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Active link highlight on scroll
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const top = section.offsetTop - 120;
+        if (window.scrollY >= top) {
+          current = section.getAttribute('id');
+        }
+      });
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
