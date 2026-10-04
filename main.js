@@ -32,6 +32,53 @@ if (filterTabs.length && projectCards.length) {
   });
 }
 
+// Project image lightbox
+const lightbox = document.getElementById('projectLightbox');
+const lightboxImage = lightbox ? lightbox.querySelector('.lightbox-image') : null;
+const lightboxClose = lightbox ? lightbox.querySelector('.lightbox-close') : null;
+const galleryCards = document.querySelectorAll('.project-card[data-image]');
+
+if (lightbox && lightboxImage && lightboxClose) {
+  const closeLightbox = () => {
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  const openLightbox = (src) => {
+    lightboxImage.src = src;
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  galleryCards.forEach(card => {
+    const open = () => {
+      const src = card.dataset.image;
+      if (src) openLightbox(src);
+    };
+
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        open();
+      }
+    });
+  });
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && lightbox.classList.contains('open')) {
+      closeLightbox();
+    }
+  });
+}
+
 // Contact form (client-side only demo)
 const form = document.getElementById('contactForm');
 if (form) {

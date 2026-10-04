@@ -112,16 +112,16 @@
       <h2 class="section-title"><i class="fas fa-hard-hat" style="color:#f7c948;margin-right:12px;"></i> Featured Projects</h2>
       <p class="section-sub">Recent builds delivered on time and within budget.</p>
       <div class="projects-grid">
-        <div class="project-card">
+        <div class="project-card" tabindex="0" data-image="assets/project-1.jpeg">
           <div class="project-img" style="background-image:url('assets/project-1.jpeg');"></div>
           <div class="project-info"><h3>Kisakasaka Community Building</h3><p>Single-storey community building with pitched steel roof.</p><span class="project-tag"><i class="fas fa-home"></i> Community</span></div>
         </div>
-        <div class="project-card">
+        <div class="project-card" tabindex="0" data-image="assets/project-2.jpeg">
           <div class="project-img" style="background-image:url('assets/project-2.jpeg');"></div>
           <div class="project-info"><h3>Kisakasaka Rural Compound</h3><p>Multi-building compound with paved walkways and open shelter.</p><span class="project-tag"><i class="fas fa-city"></i> Compound</span></div>
         </div>
-        <div class="project-card">
-          <div class="project-img" style="background-image:url('assets/office.jpeg');"></div>
+        <div class="project-card" tabindex="0" data-image="assets/WhatsApp Image 2026-09-30 at 2.02.27 PM.jpeg">
+          <div class="project-img" style="background-image:url('assets/WhatsApp Image 2026-09-30 at 2.02.27 PM.jpeg');"></div>
           <div class="project-info"><h3>Commercial Premises</h3><p>Mixed-use commercial building delivered for a private client.</p><span class="project-tag"><i class="fas fa-city"></i> Commercial</span></div>
         </div>
       </div>
@@ -194,6 +194,13 @@
       <p>&copy; 2026 BHCL Contractor Co. Ltd. All rights reserved.</p>
     </div>
   </footer>
+
+  <div class="lightbox" id="projectLightbox" aria-hidden="true">
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="Close gallery image">&times;</button>
+      <img class="lightbox-image" src="" alt="Project preview" />
+    </div>
+  </div>
 
   <script src="main.js"></script>
 </body>
