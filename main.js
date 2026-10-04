@@ -36,17 +36,32 @@ if (filterTabs.length && projectCards.length) {
 const lightbox = document.getElementById('projectLightbox');
 const lightboxImage = lightbox ? lightbox.querySelector('.lightbox-image') : null;
 const lightboxClose = lightbox ? lightbox.querySelector('.lightbox-close') : null;
+const lightboxPrev = lightbox ? lightbox.querySelector('.lightbox-nav.prev') : null;
+const lightboxNext = lightbox ? lightbox.querySelector('.lightbox-nav.next') : null;
 const galleryCards = document.querySelectorAll('.project-card[data-image]');
 
-if (lightbox && lightboxImage && lightboxClose) {
+if (lightbox && lightboxImage && lightboxClose && lightboxPrev && lightboxNext) {
+  let currentGallery = [];
+  let currentIndex = 0;
+
   const closeLightbox = () => {
     lightbox.classList.remove('open');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   };
 
-  const openLightbox = (src) => {
-    lightboxImage.src = src;
+  const updateLightbox = (index) => {
+    if (!currentGallery.length) return;
+    currentIndex = (index + currentGallery.length) % currentGallery.length;
+    lightboxImage.src = currentGallery[currentIndex].dataset.image;
+  };
+
+  const openLightbox = (card) => {
+    const visibleCards = [...galleryCards].filter(item => item.style.display !== 'none');
+    currentGallery = visibleCards;
+    currentIndex = visibleCards.indexOf(card);
+    if (currentIndex < 0) currentIndex = 0;
+    updateLightbox(currentIndex);
     lightbox.classList.add('open');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -55,7 +70,7 @@ if (lightbox && lightboxImage && lightboxClose) {
   galleryCards.forEach(card => {
     const open = () => {
       const src = card.dataset.image;
-      if (src) openLightbox(src);
+      if (src) openLightbox(card);
     };
 
     card.addEventListener('click', open);
@@ -67,14 +82,21 @@ if (lightbox && lightboxImage && lightboxClose) {
     });
   });
 
+  lightboxPrev.addEventListener('click', () => updateLightbox(currentIndex - 1));
+  lightboxNext.addEventListener('click', () => updateLightbox(currentIndex + 1));
   lightboxClose.addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', (event) => {
     if (event.target === lightbox) closeLightbox();
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && lightbox.classList.contains('open')) {
+    if (!lightbox.classList.contains('open')) return;
+    if (event.key === 'Escape') {
       closeLightbox();
+    } else if (event.key === 'ArrowLeft') {
+      updateLightbox(currentIndex - 1);
+    } else if (event.key === 'ArrowRight') {
+      updateLightbox(currentIndex + 1);
     }
   });
 }

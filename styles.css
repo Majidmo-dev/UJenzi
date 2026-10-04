@@ -460,6 +460,25 @@ img {
   display: block;
   background: #dfeaf6;
 }
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(9, 117, 200, 0.96);
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(9, 117, 200, 0.25);
+}
+.lightbox-nav:hover {
+  background: rgba(5, 95, 166, 0.98);
+}
+.lightbox-nav.prev { left: 1rem; }
+.lightbox-nav.next { right: 1rem; }
 .lightbox-close {
   position: absolute;
   top: 0.8rem;
@@ -472,6 +491,7 @@ img {
   color: #fff;
   font-size: 1.4rem;
   cursor: pointer;
+  z-index: 2;
 }
 .lightbox-close:hover {
   background: rgba(5, 95, 166, 0.98);
