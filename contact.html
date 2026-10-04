@@ -11,14 +11,14 @@
 
   <nav class="navbar" id="navbar">
     <a href="index.html" class="logo"><i class="fas fa-hard-hat"></i>BHCL Contractor</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navLinks">
       <i class="fas fa-bars"></i>
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="services.html">Services</a></li>
+       <li><a href="services.html">Services</a></li>
       <li><a href="projects.html">Projects</a></li>
+      <li><a href="about.html">About</a></li>
       <li><a href="contact.html" class="btn btn-sm active" style="background:#f7c948;color:#1e1e2a;padding:0.4rem 1.8rem;">Contact</a></li>
     </ul>
   </nav>
@@ -70,7 +70,10 @@
               <label for="message">Your message</label>
               <textarea id="message" name="message" placeholder="Tell us about your project, location, timeline, and budget." required></textarea>
             </div>
-            <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Send message</button>
+            <div class="form-actions">
+              <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Send message</button>
+              <a href="https://wa.me/255773913653?text=Hello%20BHCL%20Contractor%2C%20I%20would%20like%20to%20discuss%20a%20project%20with%20you." class="btn btn-outline btn-whatsapp" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
             <p class="form-note">We usually respond within 1 business day.</p>
             <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           </form>

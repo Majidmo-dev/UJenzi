@@ -2,9 +2,31 @@
 const toggle = document.getElementById('navToggle');
 const links = document.getElementById('navLinks');
 if (toggle && links) {
-  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  const setMenuState = (isOpen) => {
+    links.classList.toggle('open', isOpen);
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  };
+
+  toggle.addEventListener('click', () => {
+    const isOpen = !links.classList.contains('open');
+    setMenuState(isOpen);
+  });
+
   document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => links.classList.remove('open'));
+    link.addEventListener('click', () => setMenuState(false));
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!links.contains(event.target) && !toggle.contains(event.target)) {
+      setMenuState(false);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && links.classList.contains('open')) {
+      setMenuState(false);
+      toggle.focus();
+    }
   });
 }
 
@@ -101,7 +123,7 @@ if (lightbox && lightboxImage && lightboxClose && lightboxPrev && lightboxNext) 
   });
 }
 
-// Contact form (client-side only demo)
+// Contact form submission
 const form = document.getElementById('contactForm');
 if (form) {
   const status = document.getElementById('formStatus');
@@ -109,6 +131,7 @@ if (form) {
     e.preventDefault();
     status.className = 'form-status';
     status.textContent = '';
+
     const required = ['fname', 'lname', 'email', 'message'];
     const missing = required.filter(id => !form.elements[id].value.trim());
     if (missing.length) {
@@ -116,14 +139,34 @@ if (form) {
       status.textContent = 'Please fill in the required fields.';
       return;
     }
+
     const email = form.elements['email'].value.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       status.classList.add('error');
       status.textContent = 'Please enter a valid email address.';
       return;
     }
+
+    const firstName = form.elements['fname'].value.trim();
+    const lastName = form.elements['lname'].value.trim();
+    const phone = form.elements['phone']?.value.trim() || 'Not provided';
+    const service = form.elements['service']?.value.trim() || 'Not specified';
+    const message = form.elements['message'].value.trim();
+
+    const subject = encodeURIComponent(`Project enquiry from ${firstName} ${lastName}`);
+    const body = encodeURIComponent(
+      `Name: ${firstName} ${lastName}\n` +
+      `Email: ${email}\n` +
+      `Phone: ${phone}\n` +
+      `Service: ${service}\n\n` +
+      `Project details:\n${message}`
+    );
+
+    const mailtoLink = `mailto:bhclcontractor@gmail.com?subject=${subject}&body=${body}`;
+
     status.classList.add('success');
-    status.textContent = 'Thanks — your message has been prepared. We will get back to you shortly.';
+    status.textContent = 'Your email app is opening with your message ready to send.';
+    window.location.href = mailtoLink;
     form.reset();
   });
 }
