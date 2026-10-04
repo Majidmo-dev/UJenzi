@@ -12,7 +12,7 @@ html {
 }
 body {
   font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-  color: #0975C8;
+  color: #1e1e2a;
   line-height: 1.6;
   background: #f8f7f5;
 }
@@ -65,7 +65,7 @@ img {
   box-shadow: 0 8px 24px rgba(99, 183, 248, 0.25);
 }
 .btn-dark:hover {
-  background: #4aa7ef;
+  background: #055fa6;
 }
 .btn-sm {
   padding: 0.5rem 1.8rem;
@@ -80,7 +80,7 @@ img {
   width: 100%;
   z-index: 1000;
   padding: 0.8rem 2rem;
-  background: #0975C8;
+  background: rgba(9, 117, 200, 0.94);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(247, 201, 72, 0.15);
   display: flex;
@@ -89,7 +89,7 @@ img {
   transition: 0.3s;
 }
 .navbar.scrolled {
-  background: rgba(99, 183, 248, 0.95);
+  background: rgba(9, 117, 200, 0.98);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 .logo {
@@ -944,7 +944,7 @@ img {
     display: none;
     flex-direction: column;
     width: 100%;
-    background: rgba(10, 12, 28, 0.98);
+    background: rgba(9, 117, 200, 0.98);
     padding: 1.5rem 0;
     position: absolute;
     top: 100%;
